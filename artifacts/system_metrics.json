@@ -1,0 +1,33 @@
+{
+  "cad_alert_http_roundtrip_ms": 68.1,
+  "dispatch_seconds_server": 0.001,
+  "telemetry_events": 227,
+  "telemetry_rate_hz": 10.0,
+  "telemetry_latency_ms": {
+    "p50": 1.14,
+    "p95": 1.84,
+    "max": 4.28
+  },
+  "detections": 226,
+  "frame_rate_fps": 10.0,
+  "inference_ms": {
+    "p50": 1.69,
+    "p95": 2.41,
+    "max": 5.92
+  },
+  "server_cpu_percent_of_one_core": 5.9,
+  "cpu_cores_available": 2,
+  "classes_seen": [
+    "Critical",
+    "Fire",
+    "No Fire"
+  ],
+  "critical_alert_raised": true,
+  "report_generation_ms": 4.18,
+  "close_request_ms": 57.5,
+  "report_frames_analysed": 226,
+  "report_max_severity": 2,
+  "index_html_bytes": 5285,
+  "tls_negotiated": "TLSv1.3",
+  "tls12_only_client_refused": true
+}

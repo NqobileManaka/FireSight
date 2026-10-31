@@ -1,0 +1,14 @@
+{
+  "dashboard_load_s_10mbps": {
+    "runs": [
+      0.398,
+      0.355,
+      0.355,
+      0.365,
+      0.365
+    ],
+    "max": 0.398,
+    "median": 0.365
+  },
+  "report_text": "Report RPT-89FE3257\nIncident INC-0001 (CAD-1790747702614)\nDispatch: 0.001s  Duration: 25.25s\nFrames analysed: 252\nMax severity: Critical\nPeak hotspots: 3\nMessages: 1\nGenerated in 5.02 ms"
+}

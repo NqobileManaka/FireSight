@@ -1,0 +1,47 @@
+flowchart LR
+  subgraph CLIENT["Browser"]
+    C1["Dashboard UI<br/>index.html, app.js"]
+    C2["Leaflet map"]
+  end
+  subgraph SERVER["FireSight API container (Python 3.11)"]
+    direction TB
+    M["app.main<br/>REST controllers, WebSocket"]
+    SEC["app.security<br/>JWT, PBKDF2"]
+    MOD["app.models<br/>Pydantic validation"]
+    HUBC["Hub<br/>role-filtered broadcast"]
+    DSP["Dispatch<br/>nearest drone"]
+    MSN["Mission loop<br/>simulation runner"]
+    HALC["app.hal<br/>DroneAdapter, SimulatedDrone"]
+    ENG["app.ai.engine<br/>AIEngine"]
+    NET["app.ai.model<br/>ThermalCNN"]
+    GEO["app.geo<br/>georeferencing"]
+    SPRC["app.spread<br/>spread polygon"]
+    RPT["app.report<br/>report builder"]
+    DBM["app.db<br/>connection, seed"]
+  end
+  subgraph EXTS["External"]
+    CADX["CAD system"]
+    OWMX["OpenWeatherMap"]
+  end
+  MONGO[("MongoDB")]
+  C1 --> C2
+  C1 -->|"REST / WS"| M
+  CADX --> M
+  M --> SEC
+  M --> MOD
+  M --> HUBC
+  M --> DSP
+  M --> MSN
+  M --> SPRC
+  M --> RPT
+  M --> DBM
+  MSN --> HALC
+  MSN --> ENG
+  ENG --> NET
+  ENG --> GEO
+  HALC --> GEO
+  DSP --> GEO
+  SPRC --> GEO
+  SPRC -.-> OWMX
+  RPT --> DBM
+  DBM --> MONGO

@@ -1,0 +1,10 @@
+flowchart LR
+  subgraph VM["Linux cloud VM used for testing: 2 vCPU, 7 GB RAM"]
+    TB["Chromium (Playwright)<br/>dashboard client"]
+    subgraph PR["Process: uvicorn app.main:app"]
+      TA["FastAPI + AI engine<br/>+ HAL simulator"]
+      TM[("mongomock<br/>in-memory store")]
+    end
+  end
+  TB -->|"HTTP + WebSocket<br/>on localhost"| TA
+  TA --- TM

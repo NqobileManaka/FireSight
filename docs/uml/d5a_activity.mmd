@@ -1,0 +1,15 @@
+flowchart TD
+  S(("●")) --> A["CAD system posts fire alert<br/>POST /api/v1/cad/alerts"]
+  A --> B{"Valid token and role<br/>operator or admin?"}
+  B -- "No" --> E1["Reject 401 / 403"] --> Z1(("◉"))
+  B -- "Yes" --> C{"Payload valid<br/>(Pydantic)?"}
+  C -- "No" --> E2["Reject 422"] --> Z1
+  C -- "Yes" --> D{"callId already exists?"}
+  D -- "Yes" --> E3["Reject 409 duplicate"] --> Z1
+  D -- "No" --> F["Create incident INC-nnnn<br/>and notify dashboards"]
+  F --> G{"Idle drone with<br/>battery at least 30%?"}
+  G -- "No" --> H["Mark dispatch queued"] --> W["Wait until a drone<br/>becomes idle"] --> G
+  G -- "Yes" --> I["Assign nearest drone,<br/>status en_route"]
+  I --> J["Drone flies to incident,<br/>telemetry streamed at 10 Hz"]
+  J --> K["Drone on scene at 80 m"]
+  K --> CONT(("A"))

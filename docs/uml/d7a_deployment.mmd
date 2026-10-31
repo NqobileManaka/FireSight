@@ -1,0 +1,23 @@
+flowchart TB
+  BR["Commander / operator<br/>workstation browser"]
+  PH["Field crew mobile device<br/>(app not built)"]
+  CAD["Municipal CAD system"]
+  subgraph AZ["Microsoft Azure, South Africa North (designed, NOT deployed)"]
+    LB["Azure Application Gateway<br/>TLS 1.3 termination"]
+    subgraph CT["Azure container host (Docker)"]
+      API1["firesight-api container<br/>FastAPI + AI engine"]
+      API2["firesight-api container<br/>(replica)"]
+    end
+  end
+  ATLAS[("MongoDB Atlas cluster<br/>AES-256 at rest, daily backup")]
+  DR["Drone: DJI Matrice 350 RTK<br/>via DJI Cloud<br/>(adapter not built)"]
+  BR -->|"HTTPS / WSS"| LB
+  PH -.->|"HTTPS"| LB
+  CAD -->|"HTTPS webhook"| LB
+  LB --> API1
+  LB --> API2
+  API1 -->|"TLS"| ATLAS
+  API2 -->|"TLS"| ATLAS
+  DR -.->|"HAL DJIAdapter"| API1
+  classDef planned stroke-dasharray: 5 5,fill:#f3f3f3,stroke:#888,color:#555
+  class PH,DR planned

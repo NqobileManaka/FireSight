@@ -1,0 +1,78 @@
+{
+ "docs/uml/d8_erd.png": [
+  1568,
+  1530
+ ],
+ "docs/uml/d5a_activity.png": [
+  1498,
+  2578
+ ],
+ "docs/uml/d7a_deployment.png": [
+  1568,
+  1060
+ ],
+ "docs/uml/d2_usecase.png": [
+  1568,
+  1082
+ ],
+ "docs/uml/d6_component.png": [
+  1568,
+  1428
+ ],
+ "docs/uml/d5_activity.png": [
+  1568,
+  5560
+ ],
+ "docs/uml/d3_class.png": [
+  1568,
+  1196
+ ],
+ "docs/uml/d4_sequence.png": [
+  2740,
+  1776
+ ],
+ "docs/uml/d7_deployment.png": [
+  1568,
+  1004
+ ],
+ "docs/uml/d5b_activity.png": [
+  1114,
+  2828
+ ],
+ "docs/uml/d7b_deployment.png": [
+  748,
+  1218
+ ],
+ "docs/uml/d1_architecture.png": [
+  1568,
+  1118
+ ],
+ "docs/screens/04_critical_detection.png": [
+  1440,
+  900
+ ],
+ "docs/screens/07_crew_view.png": [
+  1440,
+  900
+ ],
+ "docs/screens/06_report.png": [
+  1440,
+  900
+ ],
+ "docs/screens/03_drone_en_route.png": [
+  1440,
+  900
+ ],
+ "docs/screens/05_commander_message.png": [
+  1440,
+  900
+ ],
+ "docs/screens/02_dashboard_idle.png": [
+  1440,
+  900
+ ],
+ "docs/screens/01_login.png": [
+  1440,
+  900
+ ]
+}

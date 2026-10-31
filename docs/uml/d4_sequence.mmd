@@ -1,0 +1,27 @@
+sequenceDiagram
+  autonumber
+  participant HAL as SimulatedDrone<br/>(HAL adapter)
+  participant API as API service<br/>(control)
+  participant AI as AIEngine<br/>(CNN + OpenCV)
+  participant DB as MongoDB<br/>(data)
+  participant HUB as WebSocket Hub
+  participant UI as Dashboard<br/>(interface)
+  loop every 100 ms while the incident is open
+    API->>HAL: step(dt), thermal_frame()
+    HAL-->>API: telemetry sample + 64x64 frame
+    API->>DB: update drone, insert telemetry
+    API->>HUB: telemetry event
+    HUB-->>UI: telemetry
+    API->>AI: analyse(frame, position, altitude)
+    AI->>AI: CNN classification
+    AI->>AI: segment and georeference hotspots
+    AI-->>API: class, severity, confidence, hotspots, ms
+    API->>DB: insert thermal record with aiResult
+    API->>DB: update incident hotspots, maxSeverity
+    API->>HUB: detection and hotspots events
+    HUB-->>UI: thermal frame, class, map overlay
+    opt severity is Critical for the first time
+      API->>HUB: alert event
+      HUB-->>UI: critical banner
+    end
+  end

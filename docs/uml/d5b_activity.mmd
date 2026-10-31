@@ -1,0 +1,16 @@
+flowchart TD
+  CONT(("A")) --> K["Stream thermal frames at 10 fps"]
+  K --> L{"Frame is valid<br/>64x64 PNG?"}
+  L -- "No" --> E4["Reject frame 422,<br/>keep streaming"] --> K
+  L -- "Yes" --> M["CNN classifies frame"]
+  M --> N{"Fire or Critical?"}
+  N -- "No" --> K
+  N -- "Yes" --> O["Segment and georeference hotspots,<br/>overlay on GIS map, refresh spread"]
+  O --> P{"Critical severity?"}
+  P -- "Yes" --> Q["Raise critical alert to commander"] --> R
+  P -- "No" --> R["Commander directs crews<br/>via command channel"]
+  R --> T{"Incident resolved and<br/>commander closes it?"}
+  T -- "No" --> K
+  T -- "Yes" --> U["Close incident,<br/>drone returns to idle"]
+  U --> V["Generate post-incident report"]
+  V --> Z2(("◉"))

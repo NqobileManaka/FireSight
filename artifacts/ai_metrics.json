@@ -1,0 +1,42 @@
+{
+  "dataset": "synthetic thermal frames (app/ai/synth.py); FLAME not available offline",
+  "train_samples": 4500,
+  "val_samples": 1200,
+  "val_accuracy": 0.9858,
+  "accuracy_by_epoch": [
+    0.9508,
+    0.9708,
+    0.9667,
+    0.9867,
+    0.9875,
+    0.9733,
+    0.9942,
+    0.9908,
+    0.9858,
+    0.9858
+  ],
+  "confusion_matrix": [
+    [
+      397,
+      3,
+      0
+    ],
+    [
+      2,
+      398,
+      0
+    ],
+    [
+      0,
+      12,
+      388
+    ]
+  ],
+  "classes": [
+    "No Fire",
+    "Fire",
+    "Critical"
+  ],
+  "train_seconds": 17.9,
+  "parameters": 137219
+}

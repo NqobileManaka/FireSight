@@ -1,0 +1,57 @@
+erDiagram
+  USERS {
+    string _id PK
+    string role
+    string passwordHash
+  }
+  INCIDENTS {
+    string _id PK
+    string callId UK
+    int priority
+    string status
+    string dispatchStatus
+    geojson location
+    string droneId FK
+    float dispatchSeconds
+    int maxSeverity
+  }
+  DRONES {
+    string _id PK
+    string status
+    float battery
+    float altitude
+    geojson location
+  }
+  TELEMETRY {
+    objectid _id PK
+    string kind
+    string droneId FK
+    string incidentId FK
+    float ts
+    object aiResult
+  }
+  FIREFIGHTERS {
+    string _id PK
+    string badge
+    geojson location
+    float updatedAt
+  }
+  MESSAGES {
+    objectid _id PK
+    string incidentId FK
+    string channel
+    string text
+    string from FK
+  }
+  REPORTS {
+    string _id PK
+    string incidentId FK
+    object summary
+    array hotspotTimeline
+  }
+  INCIDENTS ||--o| DRONES : assigned
+  DRONES ||--o{ TELEMETRY : produces
+  INCIDENTS ||--o{ TELEMETRY : records
+  INCIDENTS ||--o{ MESSAGES : has
+  INCIDENTS ||--o| REPORTS : summarised_by
+  USERS ||--o{ MESSAGES : sends

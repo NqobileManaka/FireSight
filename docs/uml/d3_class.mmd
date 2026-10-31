@@ -1,0 +1,101 @@
+classDiagram
+  direction TB
+  class User {
+    <<abstract>>
+    -userId : String
+    -role : String
+    -passwordHash : String
+    +login() Token
+  }
+  class Commander { +closeIncident() Report }
+  class Operator { +raiseCadAlert() Incident }
+  class FieldCrew { +updateLocation() }
+  class Admin
+  User <|-- Commander
+  User <|-- Operator
+  User <|-- FieldCrew
+  User <|-- Admin
+  class Incident {
+    -incidentId : String
+    -callId : String
+    -priority : int
+    -status : String
+    -dispatchStatus : String
+    -location : GeoPoint
+    -reportedAt : float
+    -maxSeverity : int
+    +dispatch() bool
+    +close() Report
+  }
+  class Drone {
+    -droneId : String
+    -status : String
+    -battery : float
+    -altitude : float
+    -heading : float
+    -location : GeoPoint
+    +streamTelemetry()
+  }
+  class TelemetrySample {
+    -kind : String
+    -ts : float
+    -gps : GeoPoint
+    -frameBase64 : String
+    -aiResult : AIResult
+  }
+  class AIResult {
+    -classification : String
+    -severity : int
+    -confidence : float
+    -inferenceMs : float
+  }
+  class Hotspot {
+    -lat : float
+    -lon : float
+    -areaM2 : float
+  }
+  class Firefighter {
+    -firefighterId : String
+    -badge : String
+    -location : GeoPoint
+    -updatedAt : float
+  }
+  class Message {
+    -channel : String
+    -text : String
+    -from : String
+    -ts : float
+  }
+  class Report {
+    -reportId : String
+    -generatedAt : float
+    -generationMs : float
+    -hotspotTimeline : Array
+    +generate() Report
+  }
+  class DroneAdapter {
+    <<interface>>
+    +goto()
+    +step() DroneSample
+    +thermalFrame() Frame
+    +returnHome()
+  }
+  class SimulatedDrone
+  class DJIAdapter { «not implemented» }
+  class AIEngine {
+    +analyse(frame) AIResult
+    +hotspots(frame) Hotspot[]
+  }
+  DroneAdapter <|.. SimulatedDrone
+  DroneAdapter <|.. DJIAdapter
+  Incident "1" --> "0..1" Drone : assigned
+  Drone "1" --> "0..*" TelemetrySample : produces
+  Incident "1" --> "0..*" TelemetrySample : records
+  TelemetrySample "1" --> "0..1" AIResult : has
+  AIResult "1" *-- "0..*" Hotspot : contains
+  Incident "1" --> "0..1" Report : summarised by
+  Incident "1" --> "0..*" Message : channel
+  User "1" --> "0..*" Message : sends
+  FieldCrew "1" ..> "0..*" Firefighter : updates location of
+  Drone ..> DroneAdapter : driven via HAL
+  TelemetrySample ..> AIEngine : classified by

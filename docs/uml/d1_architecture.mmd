@@ -1,0 +1,61 @@
+flowchart LR
+  subgraph USERS["Users"]
+    U1["Incident Commander"]
+    U2["Drone Operator"]
+    U3["Field Crew"]
+    U4["System Administrator"]
+  end
+  subgraph IF["Interfaces"]
+    WEB["Web Command Dashboard<br/>HTML/JS + Leaflet<br/>(implemented)"]
+    MOB["Firefighter Mobile App<br/>React Native<br/>(NOT built - REST API only)"]
+  end
+  subgraph API["FireSight API - FastAPI (Docker container)"]
+    AUTH["Auth and RBAC<br/>JWT HS256"]
+    REST["REST controllers<br/>/api/v1/*"]
+    HUB["WebSocket Hub<br/>/ws (role-filtered)"]
+    DISP["Dispatch Service<br/>nearest-drone selection"]
+    ING["Telemetry and Frame Ingest"]
+    SPR["Fire Spread Predictor<br/>wind-driven ellipse"]
+    REP["Report Builder"]
+    HAL["Hardware Abstraction Layer<br/>DroneAdapter"]
+  end
+  subgraph AI["Emerging technology: AI engine"]
+    CNN["Thermal CNN (PyTorch)<br/>No Fire / Fire / Critical"]
+    CV["OpenCV hotspot<br/>segmentation and<br/>georeferencing"]
+  end
+  subgraph DATA["Data stores"]
+    DB[("MongoDB<br/>Atlas in production,<br/>mongomock in tests")]
+  end
+  subgraph EXT["External systems"]
+    CAD["Municipal CAD system"]
+    OWM["OpenWeatherMap API<br/>(optional; simulated wind if no key)"]
+    SIM["Simulated drone and<br/>fire scenario engine"]
+    DJI["DJI Cloud / Matrice 350 RTK<br/>(adapter NOT implemented)"]
+  end
+  U1 --> WEB
+  U2 --> WEB
+  U4 --> WEB
+  U3 -.-> MOB
+  WEB -->|"HTTPS REST + WSS"| REST
+  WEB --> HUB
+  MOB -.-> REST
+  CAD -->|"POST /cad/alerts"| REST
+  REST --> AUTH
+  REST --> DISP
+  REST --> ING
+  REST --> SPR
+  REST --> REP
+  ING --> CNN
+  CNN --> CV
+  ING --> HUB
+  DISP --> DB
+  ING --> DB
+  REP --> DB
+  SPR --> OWM
+  DISP --> HAL
+  HAL --> SIM
+  HAL -.-> DJI
+  classDef planned stroke-dasharray: 5 5,fill:#f3f3f3,stroke:#888,color:#555
+  classDef tech fill:#ffe9d6,stroke:#d9622b,stroke-width:2px
+  class MOB,DJI planned
+  class CNN,CV tech

@@ -1,0 +1,10 @@
+services:
+  api:
+    build: .
+    ports: ["8000:8000"]
+    environment:
+      MONGO_URI: ${MONGO_URI:-}            # MongoDB Atlas SRV string; empty = in-memory store (demo only)
+      JWT_SECRET: ${JWT_SECRET:?set a strong secret}
+      OPENWEATHER_KEY: ${OPENWEATHER_KEY:-}
+      SIM_MODE: "1"                        # 1 = HAL simulation adapter, 0 = wait for real adapters
+    restart: unless-stopped

@@ -1,0 +1,40 @@
+flowchart LR
+  CMD["Incident Commander"]
+  OPR["Drone Operator"]
+  CRW["Field Crew"]
+  CADS["CAD System"]
+  subgraph SYS["FireSight system"]
+    UC1(["UC-01 Sign in"])
+    UC2(["UC-02 Dispatch drone<br/>to incident"])
+    UC2a(["Select nearest available drone"])
+    UC3(["UC-03 Monitor incident"])
+    UC4(["UC-04 Analyse thermal frame"])
+    UC5(["UC-05 Show hotspots on GIS map"])
+    UC6(["UC-06 Predict fire spread"])
+    UC7(["UC-07 Track firefighter GPS"])
+    UC8(["UC-08 Send command message"])
+    UC9(["UC-09 Close incident and<br/>generate report"])
+    UC10(["UC-10 View report"])
+  end
+  CADS --- UC2
+  OPR --- UC1
+  CMD --- UC1
+  CRW --- UC1
+  OPR --- UC2
+  OPR --- UC3
+  CMD --- UC3
+  CMD --- UC6
+  CMD --- UC7
+  CRW --- UC7
+  CMD --- UC8
+  OPR --- UC8
+  CRW --- UC8
+  CMD --- UC9
+  CMD --- UC10
+  OPR --- UC10
+  UC2 -. "«include»" .-> UC2a
+  UC3 -. "«include»" .-> UC4
+  UC3 -. "«include»" .-> UC5
+  UC6 -. "«extend»" .-> UC3
+  classDef actor fill:#eef3ff,stroke:#3b5bdb
+  class CMD,OPR,CRW,CADS actor

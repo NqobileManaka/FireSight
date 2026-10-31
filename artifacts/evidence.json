@@ -1,0 +1,285 @@
+{
+ "georef": {
+  "n": 381,
+  "p50": 0.55,
+  "p95": 1.37,
+  "max": 41.31,
+  "by_alt": {
+   "60": {
+    "n": 135,
+    "p95": 1.2
+   },
+   "80": {
+    "n": 125,
+    "p95": 1.39
+   },
+   "100": {
+    "n": 121,
+    "p95": 1.35
+   }
+  }
+ },
+ "api_examples": {
+  "cad_ok": {
+   "status": 201,
+   "body": {
+    "incidentId": "INC-0001",
+    "dispatched": true,
+    "droneId": "DR-01",
+    "dispatchSeconds": 0.0,
+    "distanceM": 4131,
+    "dispatchStatus": "en_route"
+   }
+  },
+  "cad_dup": {
+   "status": 409,
+   "body": {
+    "error": "duplicate CAD call id",
+    "status": 409
+   }
+  },
+  "cad_invalid": {
+   "status": 422,
+   "body": {
+    "detail0": "Input should be less than or equal to 3"
+   }
+  },
+  "no_token": {
+   "status": 401,
+   "body": {
+    "error": "missing bearer token",
+    "status": 401
+   }
+  },
+  "wrong_role": {
+   "status": 403,
+   "body": {
+    "error": "role 'crew' not permitted",
+    "status": 403
+   }
+  },
+  "analyse_ok": {
+   "status": 200,
+   "body": {
+    "classification": "Critical",
+    "severity": 2,
+    "confidence": 1.0,
+    "hotspots": [
+     {
+      "lat": -25.747896,
+      "lon": 28.22935,
+      "px": [
+       35.48677248677249,
+       31.65343915343915
+      ],
+      "areaPx": 378,
+      "areaM2": 787.5
+     },
+     {
+      "lat": -25.748148,
+      "lon": 28.229627,
+      "px": [
+       54.69444444444444,
+       51.138888888888886
+      ],
+      "areaPx": 36,
+      "areaM2": 75.0
+     },
+     {
+      "lat": -25.747993,
+      "lon": 28.229642,
+      "px": [
+       55.73913043478261,
+       39.17391304347826
+      ],
+      "areaPx": 23,
+      "areaM2": 47.9
+     }
+    ],
+    "inferenceMs": 1.94
+   }
+  },
+  "analyse_bad": {
+   "status": 422,
+   "body": {
+    "error": "frameBase64 must be a base64 64x64 grayscale PNG",
+    "status": 422
+   }
+  },
+  "spread": {
+   "status": 200,
+   "properties": {
+    "horizonMin": 15,
+    "spreadTowardDeg": 90.0,
+    "forwardM": 134.0,
+    "weather": {
+     "windKmh": 18.0,
+     "windFromDeg": 270.0,
+     "source": "simulated"
+    }
+   }
+  }
+ },
+ "tests": [
+  {
+   "name": "test_it01_login_and_bad_credentials",
+   "file": "test_integration",
+   "time": 0.307,
+   "status": "pass"
+  },
+  {
+   "name": "test_it02_cad_alert_dispatches_nearest_drone_within_30s",
+   "file": "test_integration",
+   "time": 0.226,
+   "status": "pass"
+  },
+  {
+   "name": "test_it03_security_and_validation_errors",
+   "file": "test_integration",
+   "time": 0.236,
+   "status": "pass"
+  },
+  {
+   "name": "test_it04_no_available_drone_queues_dispatch",
+   "file": "test_integration",
+   "time": 0.19,
+   "status": "pass"
+  },
+  {
+   "name": "test_it05_telemetry_reaches_dashboard_within_500ms",
+   "file": "test_integration",
+   "time": 0.274,
+   "status": "pass"
+  },
+  {
+   "name": "test_it06_ai_analyse_stores_result_and_pushes_events",
+   "file": "test_integration",
+   "time": 0.287,
+   "status": "pass"
+  },
+  {
+   "name": "test_it07_firefighter_gps_and_role_privacy",
+   "file": "test_integration",
+   "time": 0.342,
+   "status": "pass"
+  },
+  {
+   "name": "test_it08_command_message_reaches_all_clients",
+   "file": "test_integration",
+   "time": 0.278,
+   "status": "pass"
+  },
+  {
+   "name": "test_it09_close_incident_generates_report_under_5_minutes",
+   "file": "test_integration",
+   "time": 0.352,
+   "status": "pass"
+  },
+  {
+   "name": "test_it10_spread_endpoint_uses_incident_hotspots",
+   "file": "test_integration",
+   "time": 0.22,
+   "status": "pass"
+  },
+  {
+   "name": "test_it11_hal_simulated_mission_runs_without_hardware",
+   "file": "test_integration",
+   "time": 24.726,
+   "status": "pass"
+  },
+  {
+   "name": "test_st01_end_to_end_mission_metrics",
+   "file": "test_system",
+   "time": 25.244,
+   "status": "pass"
+  },
+  {
+   "name": "test_st02_tls13_in_transit",
+   "file": "test_system",
+   "time": 2.681,
+   "status": "pass"
+  },
+  {
+   "name": "test_ut01_jwt_roundtrip_tamper_expiry",
+   "file": "test_unit",
+   "time": 0.003,
+   "status": "pass"
+  },
+  {
+   "name": "test_ut02_password_hashing",
+   "file": "test_unit",
+   "time": 0.096,
+   "status": "pass"
+  },
+  {
+   "name": "test_ut03_haversine_known_distance",
+   "file": "test_unit",
+   "time": 0.001,
+   "status": "pass"
+  },
+  {
+   "name": "test_ut04_georeference_round_trip",
+   "file": "test_unit",
+   "time": 0.001,
+   "status": "pass"
+  },
+  {
+   "name": "test_ut05_request_validation_rejects_bad_input",
+   "file": "test_unit",
+   "time": 0.002,
+   "status": "pass"
+  },
+  {
+   "name": "test_ut06_cnn_accuracy_on_fresh_synthetic_frames",
+   "file": "test_unit",
+   "time": 0.544,
+   "status": "pass"
+  },
+  {
+   "name": "test_ut07_hotspot_georeference_error_under_5m",
+   "file": "test_unit",
+   "time": 0.046,
+   "status": "pass"
+  },
+  {
+   "name": "test_ut08_spread_extends_downwind_and_grows_with_wind",
+   "file": "test_unit",
+   "time": 0.001,
+   "status": "pass"
+  },
+  {
+   "name": "test_ut09_hal_adapters",
+   "file": "test_unit",
+   "time": 0.004,
+   "status": "pass"
+  },
+  {
+   "name": "test_ut10_frame_codec_and_rejection",
+   "file": "test_unit",
+   "time": 0.002,
+   "status": "pass"
+  }
+ ],
+ "coverage": 87.4223602484472,
+ "loc": {
+  "app/*.py": 614,
+  "app/static/*.js": 142,
+  "app/static/index.html": 89,
+  "tests/*.py": 465,
+  "scripts/*.py": 165
+ },
+ "versions": {
+  "fastapi": "0.142.1",
+  "httpx": "0.28.1",
+  "mongomock": "4.3.0",
+  "numpy": "2.4.4",
+  "opencv-python-headless": "4.13.0.92",
+  "playwright": "1.56.0",
+  "pydantic": "2.13.3",
+  "pymongo": "4.18.2",
+  "pytest": "9.1.1",
+  "torch": "2.14.0",
+  "uvicorn": "0.46.0",
+  "websockets": "17.1"
+ }
+}
